@@ -92,6 +92,10 @@ open class INSPhotosViewController: UIViewController, UIPageViewControllerDataSo
         return currentPhotoViewController?.photo
     }
     
+    open var currentDataSource: INSPhotosDataSource {
+        return dataSource
+    }
+    
     /*
      * maximum zoom scale for the photos. Default is 1.0
      */
@@ -294,6 +298,11 @@ open class INSPhotosViewController: UIViewController, UIPageViewControllerDataSo
             return
         }
         let photoViewController = initializePhotoViewControllerForPhoto(photo)
+        var direction = UIPageViewController.NavigationDirection.forward
+
+        if let currentPhoto = currentPhoto {
+            direction = self.dataSource.indexOfPhoto(currentPhoto)! > self.dataSource.indexOfPhoto(photo)! ? UIPageViewController.NavigationDirection.reverse : UIPageViewController.NavigationDirection.forward
+        }
         pageViewController.setViewControllers([photoViewController], direction: direction, animated: animated, completion: nil)
         updateCurrentPhotosInformation()
     }

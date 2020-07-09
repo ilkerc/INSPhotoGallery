@@ -76,7 +76,7 @@ open class INSPhotosViewController: UIViewController, UIPageViewControllerDataSo
     /*
      * Whether or not we should confirm with the user before deleting a photo
      */
-    open var shouldConfirmDeletion: Bool = false
+    open var shouldConfirmDeletion: Bool = true
 
     /*
      * INSPhotoViewController is currently displayed by page view controller
@@ -300,8 +300,10 @@ open class INSPhotosViewController: UIViewController, UIPageViewControllerDataSo
         let photoViewController = initializePhotoViewControllerForPhoto(photo)
         var direction = UIPageViewController.NavigationDirection.forward
 
-        if let currentPhoto = currentPhoto {
-            direction = self.dataSource.indexOfPhoto(currentPhoto)! > self.dataSource.indexOfPhoto(photo)! ? UIPageViewController.NavigationDirection.reverse : UIPageViewController.NavigationDirection.forward
+        if let currentPhoto = currentPhoto, let currentPhotoIndex = self.dataSource.indexOfPhoto(currentPhoto), let photoIndex = self.dataSource.indexOfPhoto(photo) {
+            debugPrint(currentPhotoIndex)
+            debugPrint(photoIndex)
+            direction = currentPhotoIndex > photoIndex ? .reverse : .forward
         }
         pageViewController.setViewControllers([photoViewController], direction: direction, animated: animated, completion: nil)
         updateCurrentPhotosInformation()

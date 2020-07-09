@@ -256,7 +256,7 @@ open class INSPhotosViewController: UIViewController, UIPageViewControllerDataSo
 
     // MARK: - Helper methods
 
-    private func deleteCurrentPhoto() {
+    public func deleteCurrentPhoto() {
         guard let currentPhoto = self.currentPhoto else {
             return
         }
